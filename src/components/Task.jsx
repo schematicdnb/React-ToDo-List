@@ -4,7 +4,7 @@ import { CSS } from "@dnd-kit/utilities"
 import { DndContext } from "@dnd-kit/core"
 
 export default function TodoCard(props) {
-	const { id, text } = props
+	const { id, text, deleteTask, updateTask } = props
 
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable({ id })
@@ -20,13 +20,18 @@ export default function TodoCard(props) {
 		setIschecked(!isChecked)
 	}
 
+	function editTask(id) {
+		const newText = prompt("Edit task", text) // TODO use in-line text input
+		if (!newText) return
+		updateTask(id, newText)
+	}
+
 	return (
 		<div
 			className={isChecked ? "completedItem" : "todoItem"}
 			ref={setNodeRef}
 			style={style}
 		>
-			{/* {children} */}
 			<input
 				type="checkbox"
 				checked={isChecked}
@@ -39,14 +44,14 @@ export default function TodoCard(props) {
 			<div className="actionsContainer">
 				<button
 					onClick={() => {
-						handleEditTodo(index)
+						editTask(id)
 					}}
 				>
 					<i className="fa-solid fa-pen-to-square"></i>
 				</button>
 				<button
 					onClick={() => {
-						handleDeleteTodo(index)
+						deleteTask(id)
 					}}
 				>
 					<i className="fa-solid fa-trash"></i>

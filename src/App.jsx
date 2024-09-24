@@ -10,7 +10,6 @@ import {
 	useSensors,
 } from "@dnd-kit/core"
 import { arrayMove } from "@dnd-kit/sortable"
-import { useUniqueId } from "@dnd-kit/utilities"
 
 function App() {
 	const [tasks, setTasks] = useState([
@@ -50,16 +49,42 @@ function App() {
 	}, [tasks])
 
 	function addTask(newTask) {
-		const newList = [...tasks, { id: tasks.length + 1, text: newTask }]
+		// const newId = tasks.length
+		// 	? Math.max(...tasks.map((task) => task.id)) + 1
+		// 	: 1
+		// Generate a new id that is not already in use
+		const newId = (() => {
+			const ids = tasks.map((task) => task.id).sort((a, b) => a - b)
+			for (let i = 0; i < ids.length; i++) {
+				if (ids[i] !== i + 1) {
+					return i + 1
+				}
+			}
+			return ids.length + 1
+		})()
+		const newList = [...tasks, { id: newId, text: newTask }]
 		setTasks(newList)
+		// TODO persist data
 	}
 
-	// function deleteTask(index) {
-	// 	const newTodoList = tasks.filter((todo, todoIndex) => {
-	// 		return todoIndex !== index
-	// 	})
-	// 	persistData(newTodoList)
-	// 	setTodos(newTodoList)
+	function deleteTask(id) {
+		setTasks((tasks) => tasks.filter((task) => task.id !== id))
+		// TODO persist data
+	}
+
+	function updateTask(id, newText) {
+		setTasks((tasks) =>
+			tasks.map((task) => (task.id === id ? { ...task, text: newText } : task))
+		)
+		// TODO persist data
+	}
+
+	// function editTask(id, newText) {
+	// 	// const editText = tasks[id]
+	// 	// setTo
+	// 	setTasks((tasks) =>
+	// 		tasks.map((task) => (task.id === id ? { ...task, text: newText } : task))
+	// 	)
 	// }
 
 	// function editTask(index) {
@@ -84,7 +109,7 @@ function App() {
 				onDragEnd={handleDragEnd}
 				sensors={sensors}
 			>
-				<List tasks={tasks} />
+				<List tasks={tasks} deleteTask={deleteTask} updateTask={updateTask} />
 			</DndContext>
 		</>
 	)
