@@ -32,11 +32,7 @@ export default function TodoCard(props) {
 				checked={isChecked}
 				onChange={handleCheckboxChange}
 			/>
-			<div
-				className="dragHandle"
-				{...attributes}
-				{...listeners}
-			>
+			<div className="dragHandle" {...attributes} {...listeners}>
 				{text}
 			</div>
 
