@@ -14,8 +14,12 @@ import { arrayMove } from "@dnd-kit/sortable"
 function App() {
 	const [tasks, setTasks] = useState([
 		{ id: 1, text: "Learn React" },
-		{ id: 2, text: "Learn Vue" },
-		{ id: 3, text: "Learn Angular" },
+		{ id: 2, text: "Make a To Do list" },
+		{ id: 3, text: "Deploy to website portfolio" },
+		{ id: 4, text: "Eat a sandwich" },
+		{ id: 5, text: "Keyboard 'enter' task adding" },
+		{ id: 6, text: "Implement in-line task editing" },
+		{ id: 7, text: "Fix data persistence" },
 	])
 
 	function getTaskPos(id) {
@@ -46,12 +50,19 @@ function App() {
 
 	useEffect(() => {
 		persistData()
+		// console.log(localStorage.getItem("tasks"))
 	}, [tasks])
 
+	useEffect(() => {
+		if (!localStorage) return
+		let localTasks = localStorage.getItem("tasks")
+		if (!localTasks) return
+		localTasks = JSON.parse(localTasks)
+		// console.log(localTasks)
+		setTasks(localTasks)
+	}, [])
+
 	function addTask(newTask) {
-		// const newId = tasks.length
-		// 	? Math.max(...tasks.map((task) => task.id)) + 1
-		// 	: 1
 		// Generate a new id that is not already in use
 		const newId = (() => {
 			const ids = tasks.map((task) => task.id).sort((a, b) => a - b)
@@ -64,45 +75,21 @@ function App() {
 		})()
 		const newList = [...tasks, { id: newId, text: newTask }]
 		setTasks(newList)
-		// TODO persist data
 	}
 
 	function deleteTask(id) {
 		setTasks((tasks) => tasks.filter((task) => task.id !== id))
-		// TODO persist data
 	}
 
 	function updateTask(id, newText) {
 		setTasks((tasks) =>
 			tasks.map((task) => (task.id === id ? { ...task, text: newText } : task))
 		)
-		// TODO persist data
 	}
-
-	// function editTask(id, newText) {
-	// 	// const editText = tasks[id]
-	// 	// setTo
-	// 	setTasks((tasks) =>
-	// 		tasks.map((task) => (task.id === id ? { ...task, text: newText } : task))
-	// 	)
-	// }
-
-	// function editTask(index) {
-	// 	const valueToBeEdited = tasks[index]
-	// 	setTodoValue(valueToBeEdited)
-	// 	handleDeleteTodo(index)
-	// }
-
-	useEffect(() => {
-		if (!localStorage) return
-		let localTasks = localStorage.getItem("tasks")
-		if (!localTasks) return
-		localTasks = JSON.parse(localTasks)
-		setTasks(localTasks)
-	}, [])
 
 	return (
 		<>
+			<h1>To Do ✅</h1>
 			<TodoInput addTask={addTask} />
 			<DndContext
 				collisionDetection={closestCorners}

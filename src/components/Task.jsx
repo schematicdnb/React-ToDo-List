@@ -1,7 +1,6 @@
 import React from "react"
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
-import { DndContext } from "@dnd-kit/core"
 
 export default function TodoCard(props) {
 	const { id, text, deleteTask, updateTask } = props

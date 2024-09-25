@@ -14,8 +14,6 @@ export default function List(props) {
 						text={task.text}
 						key={task.id}
 						deleteTask={deleteTask}
-						// editTask={editTask}
-						// tasks={tasks}
 						updateTask={updateTask}
 					/>
 				))}
