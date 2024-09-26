@@ -1,9 +1,17 @@
-import React from "react"
+import React, { useEffect } from "react"
 import { useSortable } from "@dnd-kit/sortable"
 import { CSS } from "@dnd-kit/utilities"
 
 export default function TodoCard(props) {
-	const { id, text, deleteTask, updateTask } = props
+	const {
+		id,
+		text,
+		deleteTask,
+		updateTask,
+		markCompleted,
+		unmarkCompleted,
+		completedTasks,
+	} = props
 
 	const { attributes, listeners, setNodeRef, transform, transition } =
 		useSortable({ id })
@@ -16,10 +24,16 @@ export default function TodoCard(props) {
 	const [isChecked, setIschecked] = React.useState(false)
 
 	const handleCheckboxChange = () => {
+		if (!isChecked) markCompleted(id)
+		else unmarkCompleted(id)
 		setIschecked(!isChecked)
 	}
 
-	function editTask(id) {
+	useEffect(() => {
+		if (completedTasks.includes(id)) setIschecked(true)
+	}, [])
+
+	function editTask() {
 		const newText = prompt("Edit task", text) // TODO use in-line text input
 		if (!newText) return
 		updateTask(id, newText)
@@ -43,7 +57,7 @@ export default function TodoCard(props) {
 			<div className="actionsContainer">
 				<button
 					onClick={() => {
-						editTask(id)
+						editTask()
 					}}
 				>
 					<i className="fa-solid fa-pen-to-square"></i>

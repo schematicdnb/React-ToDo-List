@@ -3,7 +3,14 @@ import Task from "./Task"
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable"
 
 export default function List(props) {
-	const { tasks, deleteTask, updateTask } = props
+	const {
+		tasks,
+		deleteTask,
+		updateTask,
+		markCompleted,
+		unmarkCompleted,
+		completedTasks,
+	} = props
 
 	return (
 		<div className="main">
@@ -15,6 +22,9 @@ export default function List(props) {
 						key={task.id}
 						deleteTask={deleteTask}
 						updateTask={updateTask}
+						completedTasks={completedTasks}
+						markCompleted={markCompleted}
+						unmarkCompleted={unmarkCompleted}
 					/>
 				))}
 			</SortableContext>
