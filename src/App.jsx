@@ -105,7 +105,7 @@ function App() {
 
 	return (
 		<>
-			<h1>To Do ✅</h1>
+			<h1>✅ To Do</h1>
 			<TodoInput addTask={addTask} />
 			<DndContext
 				collisionDetection={closestCorners}

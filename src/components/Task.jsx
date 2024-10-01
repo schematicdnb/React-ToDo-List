@@ -34,9 +34,27 @@ export default function TodoCard(props) {
 	}, [])
 
 	function editTask() {
-		const newText = prompt("Edit task", text) // TODO use in-line text input
-		if (!newText) return
-		updateTask(id, newText)
+		const dragHandle = document.getElementById(id)
+		const dragHandleBackup = dragHandle
+		const input = document.createElement("input")
+		input.type = "text"
+		input.value = text
+		input.className = "editing"
+		input.onblur = () => {
+			const newText = input.value
+			if (newText && newText !== text) {
+				updateTask(id, newText)
+			}
+			input.replaceWith(dragHandleBackup)
+		}
+		input.onkeydown = (e) => {
+			if (e.key === "Enter") {
+				input.blur()
+			}
+		}
+
+		dragHandle.replaceWith(input)
+		input.focus()
 	}
 
 	return (
@@ -50,7 +68,7 @@ export default function TodoCard(props) {
 				checked={isChecked}
 				onChange={handleCheckboxChange}
 			/>
-			<div className="dragHandle" {...attributes} {...listeners}>
+			<div className="dragHandle" id={id} {...attributes} {...listeners}>
 				{text}
 			</div>
 

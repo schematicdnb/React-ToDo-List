@@ -82,9 +82,18 @@ p {
 	gap: 14px;
 }
 
-.dragHandle {
+.dragHandle,
+.editing {
 	width: 100%;
 	padding: 14px;
+}
+
+input {
+	font-family: "Inter", sans-serif;
+	font-size: 1em;
+}
+
+.dragHandle {
 	cursor: grab;
 	z-index: 1;
 }
