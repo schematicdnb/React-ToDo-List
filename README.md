@@ -1,6 +1,6 @@
-# To Do App
+Live Demo: https://dandubois.ca/todo/
 
-This is an adaptation of: https://github.com/jamezmca/reactjs-todolist using React + Vite.
+Adapted from: https://github.com/jamezmca/reactjs-todolist using React + Vite.
 
 Additional features added:
 
