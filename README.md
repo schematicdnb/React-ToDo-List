@@ -1,6 +1,6 @@
 # To Do App
 
-This is an adaptation of @jamezmca's To reactjs-todolist: https://github.com/jamezmca/reactjs-todolist using React + Vite.
+This is an adaptation of: https://github.com/jamezmca/reactjs-todolist using React + Vite.
 
 Additional features added:
 
